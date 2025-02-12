@@ -9,11 +9,11 @@ pip install qdrant-client[fastembed]
 ```
 
 
-## Collectións
+## Collections
 
 **Get collection details**
 
-```bash
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
@@ -23,7 +23,7 @@ client.get_collection("{collection_name}")
 
 **Create a collection (with given parameter)**
 
-```bash
+```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
@@ -36,7 +36,7 @@ client.create_collection(
 
 **Delete a collection**
 
-```bash
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
@@ -46,7 +46,7 @@ client.delete_collection(collection_name="{collection_name}")
 
 **Update collection parameters**
 
-```bash
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
@@ -59,7 +59,7 @@ client.update_collection(
 
 **List all collections**
 
-```bash
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
@@ -69,7 +69,7 @@ client.get_collections()
 
 **Check collection existence**
 
-```bash
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")

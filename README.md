@@ -76,6 +76,7 @@ SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu 
 - **Mở rộng từ khóa (Term Expansion):**  
   SPLADE không chỉ biểu diễn các từ có trong văn bản mà còn gán trọng số cho các từ liên quan (ví dụ: từ "rainforest" có thể mở rộng thành "jungle", "land", "forest"), giúp tăng khả năng khớp giữa truy vấn và tài liệu.
 
+***
 ## 2. Multi-vector  🗿
 
 ### 🧝🏼‍♀️ Colbert (Contextualized Late Interaction over BERT) 

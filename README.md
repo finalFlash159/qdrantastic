@@ -9,7 +9,7 @@ A sparse vector is a special representation of high-dimensional vectors where mo
 
 ## 1.1 Sparse Embedding ☕️
 
-**📘 BM25 (Best Matching 25)**
+### **📘 BM25 (Best Matching 25)**
 
 BM25 là một phương pháp xếp hạng tài liệu dựa trên nguyên tắc của TF-IDF nhưng được cải tiến bằng cách chuẩn hóa độ dài của tài liệu. Điều này giúp giảm thiểu sự thiên lệch đối với các tài liệu có độ dài khác nhau.
 
@@ -37,7 +37,7 @@ $$
   - $\text{avgdl}$: Độ dài trung bình của tất cả các tài liệu.
 
 
-**📗 SPLADE (Sparse Lexical and Expansion Model)**
+### **📗 SPLADE (Sparse Lexical and Expansion Model)**
 
 ### BERT (Bidirectional Encoder Representations from Transformers)
 

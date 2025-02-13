@@ -36,7 +36,7 @@ $$
   - $|D|$: Độ dài của tài liệu $D$ (số từ trong tài liệu).
   - $\text{avgdl}$: Độ dài trung bình của tất cả các tài liệu.
 
-
+***
 ### **📗 SPLADE (Sparse Lexical and Expansion Model)**
 
 #### Cách hoạt động của SPLADE

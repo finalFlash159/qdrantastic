@@ -37,6 +37,54 @@ $$
   - $\text{avgdl}$: Độ dài trung bình của tất cả các tài liệu.
 
 
-
-
 **📗 SPLADE (Sparse Lexical and Expansion Model)**
+
+### BERT (Bidirectional Encoder Representations from Transformers)
+
+Bidirectional Encoder Representations from Transformers, or BERT, is a state-of-the-art Transformer-encoder-based model that performs remarkably in many NLP tasks. As the name suggests, this model relies on the famous Transformer architecture as its building block.
+
+![transformer-architecture](https://assets.zilliz.com/transformer_architecture_6ba1e629eb.png)
+
+BERT comprises multiple Transformer encoder blocks, and the number of these encoder blocks depends on the specific BERT variant. For example, the BERT Base model consists of 12 encoder blocks, while the BERT Large model has 24 encoder blocks.
+
+The pre-training process of a BERT model involves a technique known as Masked Language Modeling (MLM). In this method, a certain percentage of input tokens are randomly replaced by a [MASK] token, and the goal is to predict this masked token. The bidirectional nature of the Transformer encoder used in BERT allows the model to predict the most likely token at any position based on the context of the entire input sequence.
+
+![encoder-block](https://assets.zilliz.com/transformer_encoder_blocks_ab45e3fb80.png)
+
+### The Fundamentals of SPLADE
+
+SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu điểm của các biểu diễn sparse (rời rạc) và khả năng mở rộng từ vựng thông qua học sâu. Mục tiêu chính của SPLADE là giải quyết vấn đề vocabulary mismatch trong truy vấn thông tin bằng cách không chỉ dựa vào cá
+
+#### a. Khởi đầu với Transformer và BERT
+- **BERT với Masked Language Modeling (MLM):**  
+  SPLADE sử dụng mô hình BERT đã được tiền huấn luyện với nhiệm vụ MLM.
+- **Tokenization & Embedding:**  
+  Văn bản được chia thành các token (hoặc sub-word tokens) theo kiểu BERT, mỗi token được ánh xạ thành vector thông qua embedding matrix.
+  ![tokenizer](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fd773f2c0a10dc37381b4688626e4fdb9da5fc5a4-2310x1457.png&w=3840&q=75)
+- **Encoder Blocks:**  
+  Các vector token được xử lý qua nhiều lớp encoder với cơ chế attention, thu được các vector "information-rich" chứa đầy đủ ngữ cảnh.
+  ![encoder-block](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fe8fe02e5887ff8dda56dff29c18940b0125ebc6b-2318x1466.png&w=3840&q=75)
+
+  ![output](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F00a694f2f4e9f7ad6006f538df551c5ec3c23347-2458x1363.png&w=3840&q=75)
+
+#### b. Vai trò của MLM Head
+- **MLM Head:**  
+  Một số token trong văn bản được thay bằng `[MASK]` và mô hình dự đoán lại token gốc dựa trên ngữ cảnh.
+- **Output Logits:**  
+  Kết quả đầu ra là tập hợp logits cho mỗi token, với số chiều bằng kích thước từ vựng (ví dụ: 30522), biểu diễn xác suất của các từ có thể xuất hiện tại vị trí đó.
+  ![mask](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fd64d431fb1b50ae9aa94b5cd85e1cdffe5eb7ca1-2318x1516.png&w=3840&q=75)
+
+#### c. Tạo Sparse Embeddings
+- **Chuyển đổi logits thành sparse vector:**  
+  SPLADE tính toán trọng số cho mỗi từ \(j\) trong từ vựng theo công thức:
+  
+  $$
+  w_j = \sum_{i \in t} \log\Big(1 + \text{ReLU}(w_{ij})\Big)
+  $$
+  
+  Trong đó:
+  - $t$: Tập các token của văn bản.
+  - $w_{ij}$: Logit được dự đoán cho token $i$ đối với từ $j$.
+  
+- **Mở rộng từ khóa (Term Expansion):**  
+  SPLADE không chỉ biểu diễn các từ có trong văn bản mà còn gán trọng số cho các từ liên quan (ví dụ: từ "rainforest" có thể mở rộng thành "jungle", "land", "forest"), giúp tăng khả năng khớp giữa truy vấn và tài liệu.

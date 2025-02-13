@@ -13,13 +13,13 @@ A sparse vector is a special representation of high-dimensional vectors where mo
 
 BM25 là một phương pháp xếp hạng tài liệu dựa trên nguyên tắc của TF-IDF nhưng được cải tiến bằng cách chuẩn hóa độ dài của tài liệu. Điều này giúp giảm thiểu sự thiên lệch đối với các tài liệu có độ dài khác nhau.
 
-### Công thức
+#### Công thức 
 
 $$
 \text{score}(D, Q) = \sum_{q \in Q} \text{IDF}(q) \cdot \frac{TF(q, D) \cdot (k_1 + 1)}{TF(q, D) + k_1 \cdot \left(1 - b + b \cdot \frac{|D|}{\text{avgdl}}\right)}
 $$
 
-### Thành phần
+#### Thành phần
 
 - **TF (Term Frequency):**  
   Tần suất xuất hiện của từ $q$ trong tài liệu $D$. Tần suất cao thường cho thấy từ đó có ý nghĩa quan trọng trong nội dung tài liệu.
@@ -39,23 +39,11 @@ $$
 
 ### **📗 SPLADE (Sparse Lexical and Expansion Model)**
 
-### BERT (Bidirectional Encoder Representations from Transformers)
-
-Bidirectional Encoder Representations from Transformers, or BERT, is a state-of-the-art Transformer-encoder-based model that performs remarkably in many NLP tasks. As the name suggests, this model relies on the famous Transformer architecture as its building block.
-
-![transformer-architecture](https://assets.zilliz.com/transformer_architecture_6ba1e629eb.png)
-
-BERT comprises multiple Transformer encoder blocks, and the number of these encoder blocks depends on the specific BERT variant. For example, the BERT Base model consists of 12 encoder blocks, while the BERT Large model has 24 encoder blocks.
-
-The pre-training process of a BERT model involves a technique known as Masked Language Modeling (MLM). In this method, a certain percentage of input tokens are randomly replaced by a [MASK] token, and the goal is to predict this masked token. The bidirectional nature of the Transformer encoder used in BERT allows the model to predict the most likely token at any position based on the context of the entire input sequence.
-
-![encoder-block](https://assets.zilliz.com/transformer_encoder_blocks_ab45e3fb80.png)
-
-### The Fundamentals of SPLADE
+#### Cách hoạt động của SPLADE
 
 SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu điểm của các biểu diễn sparse (rời rạc) và khả năng mở rộng từ vựng thông qua học sâu. Mục tiêu chính của SPLADE là giải quyết vấn đề vocabulary mismatch trong truy vấn thông tin bằng cách không chỉ dựa vào cá
 
-#### a. Khởi đầu với Transformer và BERT
+##### a. Khởi đầu với Transformer và BERT
 - **BERT với Masked Language Modeling (MLM):**  
   SPLADE sử dụng mô hình BERT đã được tiền huấn luyện với nhiệm vụ MLM.
 - **Tokenization & Embedding:**  
@@ -67,20 +55,18 @@ SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu 
 
   ![output](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2F00a694f2f4e9f7ad6006f538df551c5ec3c23347-2458x1363.png&w=3840&q=75)
 
-#### b. Vai trò của MLM Head
+##### b. Vai trò của MLM Head
 - **MLM Head:**  
   Một số token trong văn bản được thay bằng `[MASK]` và mô hình dự đoán lại token gốc dựa trên ngữ cảnh.
 - **Output Logits:**  
   Kết quả đầu ra là tập hợp logits cho mỗi token, với số chiều bằng kích thước từ vựng (ví dụ: 30522), biểu diễn xác suất của các từ có thể xuất hiện tại vị trí đó.
   ![mask](https://www.pinecone.io/_next/image/?url=https%3A%2F%2Fcdn.sanity.io%2Fimages%2Fvr8gru94%2Fproduction%2Fd64d431fb1b50ae9aa94b5cd85e1cdffe5eb7ca1-2318x1516.png&w=3840&q=75)
 
-#### c. Tạo Sparse Embeddings
+##### c. Tạo Sparse Embeddings
 - **Chuyển đổi logits thành sparse vector:**  
   SPLADE tính toán trọng số cho mỗi từ \(j\) trong từ vựng theo công thức:
   
-  $$
-  w_j = \sum_{i \in t} \log\Big(1 + \text{ReLU}(w_{ij})\Big)
-  $$
+  $$w_j = \sum_{i \in t} \log\Big(1 + \text{ReLU}(w_{ij})\Big)$$
   
   Trong đó:
   - $t$: Tập các token của văn bản.

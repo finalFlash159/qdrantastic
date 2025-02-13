@@ -75,3 +75,12 @@ SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu 
   
 - **Mở rộng từ khóa (Term Expansion):**  
   SPLADE không chỉ biểu diễn các từ có trong văn bản mà còn gán trọng số cho các từ liên quan (ví dụ: từ "rainforest" có thể mở rộng thành "jungle", "land", "forest"), giúp tăng khả năng khớp giữa truy vấn và tài liệu.
+
+## 2. Multi-vector  🗿
+
+### 🧝🏼‍♀️ Colbert (Contextualized Late Interaction over BERT) 
+
+Không giống như BERT, vốn gộp các vector của từng token thành một biểu diễn duy nhất, ColBERT giữ nguyên các biểu diễn theo từng token, giúp tính toán mức độ tương đồng một cách chi tiết hơn. Điểm nổi bật của ColBERT chính là cơ chế tương tác muộn (late interaction). Cơ chế này cho phép xếp hạng và truy xuất thông tin một cách hiệu quả và chính xác bằng cách xử lý truy vấn và tài liệu một cách độc lập cho đến những giai đoạn cuối của quá trình truy xuất.
+
+**ColBERT Architecture** 🏛️
+![ colbert-architecture](https://assets.zilliz.com/The_general_architecture_of_Col_BERT_30db3739a3.png)

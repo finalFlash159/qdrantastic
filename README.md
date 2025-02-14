@@ -79,6 +79,8 @@ SPLADE (Sparse Lexical and Expansion model) là một mô hình kết hợp ưu 
 ***
 ## 2. Multi-vector  🗿
 
+Matrices of numbers with fixed length but variable height. Usually obtained from late interaction models like ColBERT.
+
 ### 🧝🏼‍♀️ Colbert (Contextualized Late Interaction over BERT) 
 
 Không giống như BERT, vốn gộp các vector của từng token thành một biểu diễn duy nhất, ColBERT giữ nguyên các biểu diễn theo từng token, giúp tính toán mức độ tương đồng một cách chi tiết hơn. Điểm nổi bật của ColBERT chính là cơ chế tương tác muộn (late interaction). Cơ chế này cho phép xếp hạng và truy xuất thông tin một cách hiệu quả và chính xác bằng cách xử lý truy vấn và tài liệu một cách độc lập cho đến những giai đoạn cuối của quá trình truy xuất.

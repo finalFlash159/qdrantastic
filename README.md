@@ -85,3 +85,57 @@ Không giống như BERT, vốn gộp các vector của từng token thành mộ
 
 **ColBERT Architecture** 🏛️
 ![ colbert-architecture](https://assets.zilliz.com/The_general_architecture_of_Col_BERT_30db3739a3.png)
+
+## 2.1 Cách hoạt động của ColBERT
+
+###  Query Encoder
+
+- **Tokenization**: Truy vấn $Q$được chia thành các token $q_1, q_2, \dots, q_l$.
+- **Đánh dấu**: Thêm token đặc biệt `[Q]` ngay sau `[CLS]` để đánh dấu đây là truy vấn.
+- **Padding/Truncation**: Nếu số token ít hơn $N_q$, đệm thêm token `[MASK]`; nếu nhiều hơn, cắt ngắn về $N_q$ token đầu.
+- **Xử lý**: Chuỗi token được đưa qua BERT và sau đó qua một CNN để tạo ra tập hợp vector nhúng, rồi được chuẩn hóa:
+  
+  $$
+  E_q := \text{Normalize}\Big(\text{CNN}\big(\text{BERT}("[Q], q_0, q_1, \dots, q_l, [MASK], \dots, [MASK]")\big)\Big)
+  $$
+
+---
+
+### Document Encoder
+
+- **Tokenization**: Tài liệu $D$ được chia thành các token \( d_0, d_1, \dots, d_n \).
+- **Đánh dấu**: Thêm token đặc biệt `[D]` ngay sau `[CLS]` để đánh dấu đầu tài liệu.
+- **Xử lý**: Chuỗi token được đưa qua BERT, qua CNN, sau đó chuẩn hóa và lọc bỏ các vector liên quan đến dấu câu:
+  
+  $$
+  E_d := \text{Filter}\Big(\text{Normalize}\big(\text{CNN}\big(\text{BERT}("[D], d_0, d_1, \dots, d_n")\big)\big)\Big)
+  $$
+
+---
+
+### Cơ chế tương tác trễ (Late Interaction Mechanism)
+Ttương tác trễ trong ColBERT nghĩa là truy vấn và tài liệu được mã hóa riêng biệt, chỉ so sánh với nhau ở bước cuối cùng. Điều này giúp:
+
+- Tăng tốc độ truy xuất tài liệu: Có thể tính trước vector tài liệu và lưu trữ trước khi có truy vấn.
+- Cải thiện độ chính xác: So sánh chi tiết từng token thay vì một vector duy nhất.
+
+- **MaxSim**:  
+  Với mỗi token $t_q$ trong tập $E_q$:
+  1. Tìm token $t_d$ trong $E_d$ có độ tương đồng cao nhất (sử dụng cosine similarity hoặc squared L2 distance).
+  2. Tổng hợp các điểm số tương đồng để tính điểm liên quan tổng thể $S_{q,d}$.
+
+## 2.2 ColBERTv2 
+
+- **Vấn đề của ColBERT**: Lưu trữ vector cho từng token tiêu tốn nhiều bộ nhớ.
+- **Giải pháp trong ColBERTv2**:
+  - **Product Quantization (PQ)**: Nén vector token mà không mất nhiều thông tin.
+  - **Centroid-Based Encoding**: Nhóm các vector theo trọng tâm để giảm kích thước lưu trữ.
+- **Quy trình truy vấn**:
+  - So sánh chỉ với các vector thuộc các cụm (centroid) gần nhất (sử dụng số lượng cụm định trước, hay nprobe).
+  - Sau đó, tải lại toàn bộ vector của tài liệu phù hợp để tính toán chi tiết hơn.
+
+> **Phân tích**:  
+> - ColBERTv2 giảm đáng kể dung lượng lưu trữ trong khi vẫn giữ được độ chính xác cao.
+> - So khớp với các vector thuộc cụm gần nhất giúp tăng tốc độ truy xuất.
+
+---

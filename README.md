@@ -109,9 +109,7 @@ Không giống như BERT, vốn gộp các vector của từng token thành mộ
 - **Đánh dấu**: Thêm token đặc biệt `[D]` ngay sau `[CLS]` để đánh dấu đầu tài liệu.
 - **Xử lý**: Chuỗi token được đưa qua BERT, qua CNN, sau đó chuẩn hóa và lọc bỏ các vector liên quan đến dấu câu:
   
-  $$
-  E_d := \text{Filter}\Big(\text{Normalize}\big(\text{CNN}\big(\text{BERT}("[D], d_0, d_1, \dots, d_n")\big)\big)\Big)
-  $$
+$$E_d := \text{Filter}\Big(\text{Normalize}\big(\text{CNN}\big(\text{BERT}("[D], d_0, d_1, \dots, d_n")\big)\big)\Big)$$
 
 ---
 

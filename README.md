@@ -97,9 +97,7 @@ Không giống như BERT, vốn gộp các vector của từng token thành mộ
 - **Padding/Truncation**: Nếu số token ít hơn $N_q$, đệm thêm token `[MASK]`; nếu nhiều hơn, cắt ngắn về $N_q$ token đầu.
 - **Xử lý**: Chuỗi token được đưa qua BERT và sau đó qua một CNN để tạo ra tập hợp vector nhúng, rồi được chuẩn hóa:
   
-  $$
-  E_q := \text{Normalize}\Big(\text{CNN}\big(\text{BERT}("[Q], q_0, q_1, \dots, q_l, [MASK], \dots, [MASK]")\big)\Big)
-  $$
+  $$E_q := \text{Normalize}\Big(\text{CNN}\big(\text{BERT}("[Q], q_0, q_1, \dots, q_l, [MASK], \dots, [MASK]")\big)\Big)$$
 
 ---
 

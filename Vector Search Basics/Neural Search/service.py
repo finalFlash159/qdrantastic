@@ -1,5 +1,4 @@
 # Deploy the search with FastAPI
-
 #1. Install FastAPI.
 # pip install fastapi uvicorn
 
